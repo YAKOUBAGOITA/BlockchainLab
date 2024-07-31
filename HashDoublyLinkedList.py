@@ -1,17 +1,20 @@
+import hashlib
+
 class Node:
     def __init__(self, data):
         self.data = data
         self.next = None
         self.prev = None
 
-class DoublyLinkedList:
+class HashDoublyLinkedList:
     def __init__(self):
         self.head = None
         self.tail = None
 
     def append(self, data):
+        
         new_node = Node(data)
-        if self.head is None:  # The list is empty
+        if self.head is None:  
             self.head = new_node
             self.tail = new_node
         else:
@@ -33,11 +36,31 @@ class DoublyLinkedList:
             current = current.prev
         print()
 
+    def apply_sha2(self):
+        current = self.head
+        while current:
+            # Convert character array (string) to SHA-256 hash
+            sha256_hash = hashlib.sha256(current.data.encode()).hexdigest()
+            current.data = sha256_hash
+            current = current.next
 
-dll = DoublyLinkedList()
+# Example usage:
+dll =HashDoublyLinkedList()
 dll.append("A")
 dll.append("B")
 dll.append("C")
 
-dll.display_forward()  
-dll.display_backward() 
+print("Original list (forward):")
+dll.display_forward()
+
+print("Original list (backward):")
+dll.display_backward()
+
+# Apply SHA-2 hashing to the list data
+dll.apply_sha2()
+
+print("Hashed list (forward):")
+dll.display_forward()
+
+print("Hashed list (backward):")
+dll.display_backward()
